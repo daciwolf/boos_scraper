@@ -25,6 +25,12 @@ class boos_email_collector:
         open_file = file.open('a')
         open_file.write(string+ '\n')
         open_file.close() 
+
+    def save_list_to_file(self, list:[], file:Path)-> None:
+        open_file = file.open('a')
+        for string in list:
+            open_file.write(string+ '\n')
+        open_file.close() 
     
     def get_response(self, url: str)-> requests.get:
         try:
@@ -155,21 +161,11 @@ class boos_email_collector:
             all_results = [value for value in all_results if value is not None]
             tpool = TimeoutPool(n_jobs=multiprocessing.cpu_count(), timeout=10)
             all_emails = tpool.apply(self.find_emails, self.get_text(all_results))
-            '''
-            with concurrent.futures.ProcessPoolExecutor(max_workers= multiprocessing.cpu_count()) as executor:
-                try:
-                    for future in executor.map(self.find_emails, self.get_text(all_results), timeout=5):
-                        all_emails.append(future)
-                        print('appened ' + str(future))
-                except TimeoutError:
-                    print('timeout')
-            '''
             print('got emails')
             all_emails = self.flatten_list(all_emails)
             all_emails = list(set([value for value in all_emails if value is not None]))
             print('got flatened list')
-            with concurrent.futures.ProcessPoolExecutor(max_workers= multiprocessing.cpu_count()) as executor:
-                executor.map(self.email_adder, all_emails)
+            self.save_list_to_file(all_emails, self.emails)
 
         
     
