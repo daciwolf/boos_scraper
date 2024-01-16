@@ -171,39 +171,6 @@ class boos_email_collector:
             with concurrent.futures.ProcessPoolExecutor(max_workers= multiprocessing.cpu_count()) as executor:
                 executor.map(self.email_adder, all_emails)
 
-                
-        
-        
-
-
-if __name__ == '__main__':
-    boo_email = boos_email_collector(timeout_duration=10, results=1, links=Path(r'C:\Users\david\Documents\boosemailscraper\test_emails.txt'), emails=Path(r'C:\Users\david\Documents\boosemailscraper\got_emails.txt'))
-    boo_email.process_links(boo_email.get_urls())
-    
-    '''link = boo_email.perform_search('irvine high school')[0]
-    print(link)
-    
-    links = list(boo_email.get_connecting(link))
-    print(links)
-    
-    for url in links:
-        try:
-            website_text = boo_email.get_response(url).text
-        
-            emails = list(boo_email.find_emails(website_text))
-            
-            
-            for email in emails:
-                if boo_email.email_validator(email):
-                    print(email + ' is an email')
-        except:
-            pass 
-     
-
-    urls= ['https://irvinehigh.iusd.org//parents/school-site-council', 'https://my.iusd.org/', 'https://irvinehigh.iusd.org//about/contact-us']
-    print(boo_email.threaded_get_response(urls))'''
-    
-
         
     
 
