@@ -134,12 +134,6 @@ class boos_email_collector:
         if self.email_validator(email):
             print('adding ' + email)
             self.save_to_file(email, self.emails)
-
-
-
-
-        
-    
     
     def process_links(self, urls:[]) -> set():
         emails = set()
