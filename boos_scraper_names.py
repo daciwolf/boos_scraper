@@ -15,7 +15,7 @@ class BoosScraper:
     def __init__(self, timeout_duration=10, results=1, names=Path, emails=Path, school_dicts=Path):
         self.timeout_duration = timeout_duration
         self.results = results
-        self.links = names
+        self.names = names
         self.emails = emails
         self.school_dicts_file = school_dicts
         pass
@@ -160,6 +160,10 @@ class BoosScraper:
 
 
 if __name__ == '__main__':
-    scraper = BoosScraper(names=)
+    names_path = Path(r'C:\Users\david\PycharmProjects\boos_scraper\names.txt')
+    emails_path = Path(r'C:\Users\david\PycharmProjects\boos_scraper\emails.txt')
+    school_dicts_path = Path(r'C:\Users\david\PycharmProjects\boos_scraper\school_dicts.txt')
+    scraper = BoosScraper(names=names_path, emails=emails_path, school_dicts=school_dicts_path)
+    scraper.proccess_names(names=scraper.names, emails=scraper.emails )
 
 
