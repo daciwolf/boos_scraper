@@ -163,7 +163,7 @@ class BoosScraper:
 
 
 if __name__ == '__main__':
-    names_path = Path(r'C:\Users\david\PycharmProjects\boos_scraper\names.txt')
+    names_path = Path(r'C:\Users\david\PycharmProjects\boos_scraper\names_test.txt')
     emails_path = Path(r'C:\Users\david\PycharmProjects\boos_scraper\emails.txt')
     school_dicts_path = Path(r'C:\Users\david\PycharmProjects\boos_scraper\school_dicts.txt')
     scraper = BoosScraper(names=names_path, emails=emails_path, school_dicts=school_dicts_path)
