@@ -29,17 +29,19 @@ class BoosScraper:
     def school_dicts(self, names: []) -> []:
         return_school_dicts = []
         for school in names:
-            school_dict = {'name': school, 'links ': [], 'emails': []}
+            school_dict = {'name': school, 'links': [], 'emails': []}
             return_school_dicts.append(school_dict)
         return return_school_dicts
 
     def perform_search(self, query: str) -> []:
-        return list(search(query, num=self.results, stop=self.results, pause=.5))
+        return_list = list(search(query, num=self.results, stop=self.results, pause=1))
+        print return_list
+        return return_list
 
     def save_list_to_file(self, list: [], file: Path) -> None:
         open_file = file.open('a')
         for string in list:
-            open_file.write(string + '\n')
+            open_file.write(str(string) + '\n')
         open_file.close()
 
     def segment_list(self, schools: []) -> []:
@@ -135,10 +137,11 @@ class BoosScraper:
 
     def proccess_names(self, names: Path, emails: Path):
         school_dicts = self.school_dicts(self.get_names(names))
+        print(school_dicts)
         for school in school_dicts:
             try:
                 school['links'].append(self.perform_search(school['name'])[0])
-            except Exception as e:
+            except:
                 pass
         self.save_list_to_file(school_dicts, self.school_dicts_file)
         for schools in self.segment_list(school_dicts):
