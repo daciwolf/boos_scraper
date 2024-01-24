@@ -20,3 +20,22 @@ class BoosScraper:
         self.emails = emails
         pass
 
+    def get_names(self, names:Path) -> []:
+        names_text = names.open('r')
+        names_list = names_text.readlines()
+        names_text.close()
+        return names_list
+
+    def school_dicts(self, names:[])-> []:
+        return_school_dicts = []
+        for school in names:
+            school_dict = {'name' : school}
+        return return_school_dicts
+
+
+
+
+
+    def proccess_names(self, names:Path, emails:Path):
+        school_dicts = self.school_dicts(self.get_names(names))
+
