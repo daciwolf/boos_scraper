@@ -35,7 +35,7 @@ class BoosScraper:
 
     def perform_search(self, query: str) -> []:
         return_list = list(search(query, num=self.results, stop=self.results, pause=1))
-        print return_list
+        print(return_list)
         return return_list
 
     def save_list_to_file(self, list: [], file: Path) -> None:
