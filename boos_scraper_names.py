@@ -122,17 +122,29 @@ class BoosScraper:
     def school_find_emails(self, school:dict)-> dict:
         for response in school['responses']:
             try:
-                email = self.find_emails(response.text)
-                if self.email_validator(email):
-                    school['emails'].append(email)
+                emails = self.find_emails(response.text)
+                for email in emails:
+                    if self.email_validator(email):
+                        school['emails'].append(email)
             except:
+                print("Email not found")
                 pass
+        print("hi",school)
+        return self.school_text(school)
 
 
     def school_text(self, school:dict)-> str:
-        return 'name: ' + school['name'] + '\nemail: ' + school['emails']
+        print('hi2' , school)
+        return 'name: ' + school['name'] + '\nemail: ' + str(school['emails'])
 
-
+    def flatten_list(self, lst: []):
+        result = []
+        for element in lst:
+            if type(element) is list:
+                result.extend(self.flatten_list(element))
+            else:
+                result.append(element)
+        return result
 
 
     def proccess_names(self, names: Path, emails: Path):
@@ -150,20 +162,19 @@ class BoosScraper:
             with concurrent.futures.ProcessPoolExecutor(max_workers=multiprocessing.cpu_count()) as executor:
                 schools_with_web = list(executor.map(self.threaded_get_connecting, split_schools))
             print('got web for schools')
+            flattened_schools_with_web = self.flatten_list(schools_with_web)
             with concurrent.futures.ProcessPoolExecutor(max_workers=multiprocessing.cpu_count()) as executor:
-                schools_with_responses = list(executor.map(self.threaded_get_response, schools_with_web))
+                schools_with_responses = list(executor.map(self.threaded_get_response, flattened_schools_with_web))
+            print('hi3' ,schools_with_responses)
             print('got schools with results')
             tpool = TimeoutPool(n_jobs=multiprocessing.cpu_count(), timeout=10)
             schools_with_emails = tpool.apply(self.school_find_emails, schools_with_responses)
             print('got emails')
-            schools_text = []
-            for school in schools_with_emails:
-                schools_text.append(self.school_text(school))
-            self.save_list_to_file(schools_text, self.emails)
+            self.save_list_to_file(schools_with_emails, self.emails)
 
 
 if __name__ == '__main__':
-    names_path = Path(r'C:\Users\david\PycharmProjects\boos_scraper\names_test.txt')
+    names_path = Path(r'C:\Users\david\PycharmProjects\boos_scraper\names.txt')
     emails_path = Path(r'C:\Users\david\PycharmProjects\boos_scraper\emails.txt')
     school_dicts_path = Path(r'C:\Users\david\PycharmProjects\boos_scraper\school_dicts.txt')
     scraper = BoosScraper(names=names_path, emails=emails_path, school_dicts=school_dicts_path)
