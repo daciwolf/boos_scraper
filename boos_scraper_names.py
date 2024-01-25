@@ -152,6 +152,7 @@ class BoosScraper:
         print(school_dicts)
         for school in school_dicts:
             try:
+                print(school['name'])
                 school['links'].append(self.perform_search(school['name'])[0])
             except:
                 pass
@@ -174,7 +175,7 @@ class BoosScraper:
 
 
 if __name__ == '__main__':
-    names_path = Path(r'C:\Users\david\PycharmProjects\boos_scraper\names.txt')
+    names_path = Path(r'C:\Users\david\PycharmProjects\boos_scraper\names_test.txt')
     emails_path = Path(r'C:\Users\david\PycharmProjects\boos_scraper\emails.txt')
     school_dicts_path = Path(r'C:\Users\david\PycharmProjects\boos_scraper\school_dicts.txt')
     scraper = BoosScraper(names=names_path, emails=emails_path, school_dicts=school_dicts_path)
