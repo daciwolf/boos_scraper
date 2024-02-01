@@ -34,7 +34,7 @@ class BoosScraper:
         return return_school_dicts
 
     def perform_search(self, query: str) -> []:
-        return_list = list(search(query, num=self.results, stop=self.results, pause=1))
+        return_list = list(search(query, num=self.results, stop=self.results, pause=2))
         print(return_list)
         return return_list
 
@@ -54,6 +54,8 @@ class BoosScraper:
         return split_links
 
     def get_connecting(self, school: dict) -> dict:
+        if len(school['links']) ==0:
+            return school
         url = school['links'][0]
         url_web = set(url)
         url_parts = urlsplit(url)
@@ -175,7 +177,7 @@ class BoosScraper:
 
 
 if __name__ == '__main__':
-    names_path = Path(r'C:\Users\david\PycharmProjects\boos_scraper\names_test.txt')
+    names_path = Path(r'C:\Users\david\PycharmProjects\boos_scraper\names.txt')
     emails_path = Path(r'C:\Users\david\PycharmProjects\boos_scraper\emails.txt')
     school_dicts_path = Path(r'C:\Users\david\PycharmProjects\boos_scraper\school_dicts.txt')
     scraper = BoosScraper(names=names_path, emails=emails_path, school_dicts=school_dicts_path)
